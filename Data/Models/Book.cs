@@ -17,5 +17,10 @@ namespace Prologue.Data.Models
         public string Author { get; set; }
         public string CoverUrl { get; set; }
         public DateTime DateAdded { get; set; }
+
+        public int PublisherId { get; set; }
+        public Publisher Publisher { get; set; }
+
+        public List<Book_Author> Book_Authors { get; set; }
     }
 }
