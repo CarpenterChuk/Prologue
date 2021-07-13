@@ -59,6 +59,8 @@ namespace Prologue
             {
                 endpoints.MapControllers();
             });
+
+            AppDbInitializer.Seed(app);
         }
     }
 }
