@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Prologue.Data.Paging;
 
 namespace Prologue.Data.Services
 {
@@ -38,7 +39,7 @@ namespace Prologue.Data.Services
             return _publisherData;
         }
 
-        public List<Publisher> GetAllPublishers(string sortBy, string searchString)
+        public List<Publisher> GetAllPublishers(string sortBy, string searchString, int? pageNumber)
         {
             var _allPublishers = _context.Publishers.OrderBy(n => n.Name).ToList();
 
@@ -56,8 +57,11 @@ namespace Prologue.Data.Services
 
             if (!string.IsNullOrEmpty(searchString))
             {
-                _allPublishers = _allPublishers.Where(n => n.Name.Contains(searchString, StringComparison.CurrentCultureIgnoreCase)).ToList();
+                _allPublishers = _allPublishers.Where(n => n.Name.Contains(searchString , StringComparison.CurrentCultureIgnoreCase)).ToList();
             }
+
+            int pageSize = 5;
+            _allPublishers = PaginatedList<Publisher>.Create(_allPublishers.AsQueryable(), pageNumber ?? 1, pageSize);
 
             return _allPublishers;
         }
