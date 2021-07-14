@@ -38,15 +38,16 @@ namespace Prologue
             services.AddTransient<BooksService>();
             services.AddTransient<AuthorsService>();
             services.AddTransient<PublishersService>();
+            services.AddTransient<LogsService>();
             
-            services.AddApiVersioning(config =>
-            {
-                config.DefaultApiVersion = new ApiVersion(1, 0);
-                config.AssumeDefaultVersionWhenUnspecified = true;
+            //services.AddApiVersioning(config =>
+            //{
+            //    config.DefaultApiVersion = new ApiVersion(1, 0);
+            //    config.AssumeDefaultVersionWhenUnspecified = true;
 
-                //config.ApiVersionReader = new HeaderApiVersionReader("custom-version-header");
-                //config.ApiVersionReader = new MediaTypeApiVersionReader();
-            });
+            //    //config.ApiVersionReader = new HeaderApiVersionReader("custom-version-header");
+            //    //config.ApiVersionReader = new MediaTypeApiVersionReader();
+            //});
 
             services.AddSwaggerGen(c =>
             {

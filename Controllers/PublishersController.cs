@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using Prologue.Data.Models;
 using Prologue.Data.Services;
 using Prologue.Data.ViewModels;
@@ -12,12 +13,14 @@ namespace Prologue.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class PablishersController : ControllerBase
+    public class PublishersController : ControllerBase
     {
         private PublishersService _publishersService;
-        public PablishersController(PublishersService publishersService)
+        private readonly ILogger<PublishersController> _logger;
+        public PublishersController(PublishersService publishersService, ILogger<PublishersController> logger)
         {
             _publishersService = publishersService;
+            _logger = logger;
         }
 
         [HttpPost("add-publisher")]
@@ -32,6 +35,7 @@ namespace Prologue.Controllers
         {
             try
             {
+                _logger.LogInformation("This is just a log in GetAllPublishers()");
                 var _result = _publishersService.GetAllPublishers(sortBy, searchString, pageNumber);
                 return Ok(_result);
             }
