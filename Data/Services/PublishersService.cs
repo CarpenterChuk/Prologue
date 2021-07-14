@@ -38,9 +38,25 @@ namespace Prologue.Data.Services
             return _publisherData;
         }
 
-        public List<Publisher> GetAllPublishers() => _context.Publishers.ToList();
+        public List<Publisher> GetAllPublishers(string sortBy)
+        {
+            var _allPublishers = _context.Publishers.OrderBy(n => n.Name).ToList();
 
-        public Publisher GetPublisherById(int publisherId)
+            if (!string.IsNullOrEmpty(sortBy))
+            {
+                switch (sortBy)
+                {
+                    case "name_desc":
+                        _allPublishers = _allPublishers.OrderByDescending(n => n.Name).ToList();
+                        break;
+                    default:
+                        break;
+                }
+            }
+
+            return _allPublishers;
+        }
+    public Publisher GetPublisherById(int publisherId)
         {
             var _publisherData = _context.Publishers.FirstOrDefault(n => n.Id == publisherId);
             return _publisherData;
