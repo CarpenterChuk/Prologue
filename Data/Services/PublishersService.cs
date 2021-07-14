@@ -38,7 +38,7 @@ namespace Prologue.Data.Services
             return _publisherData;
         }
 
-        public List<Publisher> GetAllPublishers(string sortBy)
+        public List<Publisher> GetAllPublishers(string sortBy, string searchString)
         {
             var _allPublishers = _context.Publishers.OrderBy(n => n.Name).ToList();
 
@@ -52,6 +52,11 @@ namespace Prologue.Data.Services
                     default:
                         break;
                 }
+            }
+
+            if (!string.IsNullOrEmpty(searchString))
+            {
+                _allPublishers = _allPublishers.Where(n => n.Name.Contains(searchString, StringComparison.CurrentCultureIgnoreCase)).ToList();
             }
 
             return _allPublishers;
