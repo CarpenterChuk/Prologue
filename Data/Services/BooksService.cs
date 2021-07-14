@@ -43,7 +43,22 @@ namespace Prologue.Data.Services
             }
         }
         public List<Book> GetAllBooks() => _context.Books.ToList();
-        public Book GetBookByID(int bookId) => _context.Books.FirstOrDefault(n => n.Id == bookId);
+        public BookWithAuthorsViewModel GetBookByID(int bookId)
+        {
+            var _bookWithAuthors = _context.Books.Where(n => n.Id == bookId).Select(book => new BookWithAuthorsViewModel()
+            {
+                Title = book.Title,
+                Description = book.Description,
+                IsRead = book.IsRead,
+                DateRead = book.IsRead ? book.DateRead.Value : null,
+                Rate = book.IsRead ? book.Rate.Value : null,
+                Genre = book.Genre,
+                CoverUrl = book.CoverUrl,
+                PublisherName = book.Publisher.Name,
+                AuthorNames = book.Book_Authors.Select(n => n.Author.FullName).ToList()
+            }).FirstOrDefault();
+            return _bookWithAuthors;
+        }
         public Book UpdateBookById(int bookId, BookViewModel book)
         {
             var _book = _context.Books.FirstOrDefault(n => n.Id == bookId);
